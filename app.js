@@ -1,16 +1,13 @@
-import { WebSocketServer } from "ws";
+const {Server} = require("socket.io");
 
-const wss = new WebSocketServer({ port: 8080 });
+const io = new Server(8080,{
+    cors:{
+        origin:"*",
+    }
+})
 
-wss.on("connection", (socket) => {
-  console.log("Client connected!", socket);
-  socket.on("error", console.error);
+io.on("connection",(socket)=>{
+    console.log("User connected: ",socket.id);
+})
 
-  socket.on("message", function message(data) {
-    console.log(data);
-  });
-
-  socket.on("close",()=>{
-    console.log("Client closed connection")
-  })
-});
+console.log("Started listening on 8080...")
